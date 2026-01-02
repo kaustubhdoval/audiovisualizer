@@ -24,9 +24,15 @@ export default function ControlBar({ visualizer, setVisualizer }: Props) {
       <select
         value={visualizer}
         onChange={(e) => setVisualizer(e.target.value as VisualizerId)}
-        style={{ fontSize: 18, padding: "0.5rem 1rem", borderRadius: 6 }}
+        style={{
+          fontSize: 18,
+          padding: "0.5rem 1rem",
+          borderRadius: 6,
+          backgroundColor: "rgba(20,20,30,0.95)",
+        }}
       >
         <option value="waveform">Waveform</option>
+        <option value="frequencyBars">Bars</option>
       </select>
     </div>
   );

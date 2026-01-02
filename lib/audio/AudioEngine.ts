@@ -22,6 +22,13 @@ export class AudioEngine {
     return this.dataArray;
   }
 
+  getFrequencyData(): Uint8Array {
+    if (!this.analyser) return new Uint8Array(0);
+    const arr = new Uint8Array(this.analyser.frequencyBinCount);
+    this.analyser.getByteFrequencyData(arr);
+    return arr;
+  }
+
   destroy() {
     this.ctx?.close();
     this.ctx = null;

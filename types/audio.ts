@@ -1,1 +1,1 @@
-export type VisualizerId = "waveform";
+export type VisualizerId = "waveform" | "frequencyBars";

@@ -2,11 +2,14 @@
 import { useEffect, useRef } from "react";
 import { AudioEngine } from "../lib/audio/AudioEngine";
 import type { VisualizerBase } from "../lib/visualizers/VisualizerBase";
-import { WaveformVisualizer } from "../lib/visualizers/WaveformVisualizer";
 import type { VisualizerId } from "../types/audio";
+
+import { WaveformVisualizer } from "../lib/visualizers/WaveformVisualizer";
+import { FrequencyBarsVisualizer } from "../lib/visualizers/FrequencyBarsVisualizer";
 
 const visualizerMap: Record<VisualizerId, () => VisualizerBase> = {
   waveform: () => new WaveformVisualizer(),
+  frequencyBars: () => new FrequencyBarsVisualizer(),
 };
 
 type Props = {
@@ -35,7 +38,13 @@ export default function VisualizerCanvas({ visualizer }: Props) {
         if (!running) return;
         const dt = (now - last) / 1000;
         last = now;
-        const samples = engineRef.current!.getSamples();
+
+        let samples;
+        if (visualizer === "frequencyBars") {
+          samples = engineRef.current!.getFrequencyData(); // Uint8Array
+        } else {
+          samples = engineRef.current!.getSamples(); // Float32Array
+        }
         visRef.current!.update(samples, dt);
         rafRef.current = requestAnimationFrame(loop);
       };
@@ -69,7 +78,7 @@ export default function VisualizerCanvas({ visualizer }: Props) {
         position: "fixed",
         inset: 0,
         width: "100vw",
-        height: "100vh",
+        height: "90vh",
         display: "block",
       }}
       tabIndex={-1}
