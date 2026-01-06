@@ -1,17 +1,23 @@
 export class AudioEngine {
   private ctx: AudioContext | null = null;
   private analyser: AnalyserNode | null = null;
-  private dataArray: Float32Array | null = null;
+  private dataArray: Float32Array<ArrayBuffer> | null = null;
   private source: MediaStreamAudioSourceNode | null = null;
   private bufferSize = 2048;
 
   async init(): Promise<void> {
     if (this.ctx) return;
+
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
     this.ctx = new AudioContext();
     this.analyser = this.ctx.createAnalyser();
     this.analyser.fftSize = this.bufferSize;
-    this.dataArray = new Float32Array(this.analyser.fftSize);
+
+    this.dataArray = new Float32Array(
+      this.analyser.fftSize
+    ) as Float32Array<ArrayBuffer>;
+
     this.source = this.ctx.createMediaStreamSource(stream);
     this.source.connect(this.analyser);
   }
