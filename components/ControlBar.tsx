@@ -19,6 +19,7 @@ export default function ControlBar({ visualizer, setVisualizer }: Props) {
         display: "flex",
         justifyContent: "center",
         zIndex: 10,
+        height: "80px",
       }}
     >
       <select

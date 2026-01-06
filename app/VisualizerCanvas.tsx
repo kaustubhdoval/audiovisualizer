@@ -78,7 +78,7 @@ export default function VisualizerCanvas({ visualizer }: Props) {
         position: "fixed",
         inset: 0,
         width: "100vw",
-        height: "90vh",
+        height: "calc(100vh - 80px)",
         display: "block",
       }}
       tabIndex={-1}
